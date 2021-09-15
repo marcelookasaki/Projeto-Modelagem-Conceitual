@@ -13,6 +13,7 @@ import com.myo.estudoDeCaso.domain.Cidade;
 import com.myo.estudoDeCaso.domain.Cliente;
 import com.myo.estudoDeCaso.domain.Endereco;
 import com.myo.estudoDeCaso.domain.Estado;
+import com.myo.estudoDeCaso.domain.ItemPedido;
 import com.myo.estudoDeCaso.domain.Pagamento;
 import com.myo.estudoDeCaso.domain.PagamentoBoleto;
 import com.myo.estudoDeCaso.domain.PagamentoCartao;
@@ -25,6 +26,7 @@ import com.myo.estudoDeCaso.repositories.CidadeRepository;
 import com.myo.estudoDeCaso.repositories.ClienteRepository;
 import com.myo.estudoDeCaso.repositories.EnderecoRepository;
 import com.myo.estudoDeCaso.repositories.EstadoRepository;
+import com.myo.estudoDeCaso.repositories.ItemPedidoRepository;
 import com.myo.estudoDeCaso.repositories.PagamentoRepository;
 import com.myo.estudoDeCaso.repositories.PedidoRepository;
 import com.myo.estudoDeCaso.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class EstudoDeCasoApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 
 	public static void main(String[] args) {
@@ -117,6 +121,20 @@ public class EstudoDeCasoApplication implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pgt1, pgt2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 100.00, 1, 5000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 00.00, 2, 120.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 50.00, 1, 1000.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
 	}
 }
 
